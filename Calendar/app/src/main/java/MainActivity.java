@@ -35,6 +35,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,11 +47,13 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 public class MainActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+    private Button mCallApiButton, matchButton, addFriendButton;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -58,7 +61,7 @@ public class MainActivity extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
+    private static final String BUTTON_TEXT = "Login to Google";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
@@ -93,6 +96,31 @@ public class MainActivity extends Activity
             }
         });
         activityLayout.addView(mCallApiButton);
+
+        matchButton = new Button(this);
+        matchButton.setText("Find Your Gym Buddy");
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchButton.setEnabled(false);
+                match();
+                matchButton.setEnabled(true);
+            }
+        });
+        activityLayout.addView(matchButton);
+
+        addFriendButton = new Button(this);
+        addFriendButton.setText("Add Friend");
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFriendButton.setEnabled(false);
+                addFriend();
+                addFriendButton.setEnabled(true);
+            }
+        });
+
+        activityLayout.addView(addFriendButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -134,6 +162,24 @@ public class MainActivity extends Activity
             new MakeRequestTask(mCredential).execute();
         }
     }
+
+    private void match() {
+        if (! isGooglePlayServicesAvailable()) {
+            acquireGooglePlayServices();
+        } else if (mCredential.getSelectedAccountName() == null) {
+            chooseAccount();
+        } else if (! isDeviceOnline()) {
+            mOutputText.setText("No network connection available.");
+        } else {
+            //new matchTask().execute();
+        }
+    }
+
+    private void addFriend() {
+        Intent intent = new Intent(this, AddFriendsPage.class);
+        startActivity(intent);
+    }
+
 
     /**
      * Attempts to set the account used with the API credentials. If an account
@@ -415,4 +461,6 @@ public class MainActivity extends Activity
             }
         }
     }
+
+
 }
