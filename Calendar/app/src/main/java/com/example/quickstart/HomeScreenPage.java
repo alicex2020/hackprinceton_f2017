@@ -47,13 +47,10 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
-public class MainActivity extends Activity implements EasyPermissions.PermissionCallbacks {
+public class HomeScreenPage extends Activity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
-    private Button mCallApiButton, matchButton, addFriendButton;
-    ProgressDialog mProgress;
+
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -71,69 +68,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
-
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
-        activityLayout.addView(mCallApiButton);
-
-        matchButton = new Button(this);
-        matchButton.setText("Find Your Gym Buddy");
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchButton.setEnabled(false);
-                match();
-                matchButton.setEnabled(true);
-            }
-        });
-        activityLayout.addView(matchButton);
-
-        addFriendButton = new Button(this);
-        addFriendButton.setText("Add Friend");
-        addFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFriendButton.setEnabled(false);
-                addFriend();
-                addFriendButton.setEnabled(true);
-            }
-        });
-
-        activityLayout.addView(addFriendButton);
-
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
-
-        mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
-
-        setContentView(activityLayout);
+        setContentView(R.layout.activity_home_screen_page);
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -141,44 +76,26 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 .setBackOff(new ExponentialBackOff());
     }
 
-
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
-    private void getResultsFromApi() {
+    public void callAPI(View view) {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
-        } else {
-            new MakeRequestTask(mCredential).execute();
+        }
+         else {
+            new com.example.quickstart.HomeScreenPage.MakeRequestTask(mCredential).execute();
         }
     }
 
-    private void match() {
-        if (! isGooglePlayServicesAvailable()) {
-            acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
-        } else {
-            //new matchTask().execute();
-        }
-    }
-
-    private void addFriend() {
-        Intent intent = new Intent(this, AddFriendsPage.class);
+    public void match(View view) {
+        Intent intent = new Intent(this, MatchPage.class);
         startActivity(intent);
     }
 
+    public void addFriend(View view) {
+        Intent intent = new Intent(this, AddFriendsPage.class);
+        startActivity(intent);
+    }
 
     /**
      * Attempts to set the account used with the API credentials. If an account
@@ -191,14 +108,14 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * is granted.
      */
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private void chooseAccount() {
+    public void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
+                callAPI(null);
             } else {
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
@@ -232,11 +149,12 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
+                    /*mOutputText.setText(
                             "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.");
+                                    */
                 } else {
-                    getResultsFromApi();
+                    callAPI(null);
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -251,13 +169,13 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
                         mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
+                        callAPI(null);
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    getResultsFromApi();
+                    callAPI(null);
                 }
                 break;
         }
@@ -308,7 +226,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * Checks whether the device currently has a network connection.
      * @return true if the device has a network connection, false otherwise.
      */
-    private boolean isDeviceOnline() {
+    public boolean isDeviceOnline() {
         ConnectivityManager connMgr =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -320,7 +238,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * @return true if Google Play Services is available and up to
      *     date on this device; false otherwise.
      */
-    private boolean isGooglePlayServicesAvailable() {
+    public boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
@@ -332,7 +250,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * Attempt to resolve a missing, out-of-date, invalid or disabled Google
      * Play Services installation via a user dialog, if possible.
      */
-    private void acquireGooglePlayServices() {
+    public void acquireGooglePlayServices() {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
@@ -353,7 +271,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                MainActivity.this,
+                com.example.quickstart.HomeScreenPage.this,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -363,7 +281,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    public class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
 
@@ -378,6 +296,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
         /**
          * Background task to call Google Calendar API.
+         *
          * @param params no parameters needed for this task.
          */
         @Override
@@ -393,6 +312,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
         /**
          * Fetch a list of the next 10 events from the primary calendar.
+         *
          * @return List of Strings describing returned events.
          * @throws IOException
          */
@@ -422,16 +342,11 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             }
             return eventStrings;
         }
+    }
 
 
-        @Override
-        protected void onPreExecute() {
-            mOutputText.setText("");
-            mProgress.show();
-        }
 
-        @Override
-        protected void onPostExecute(List<String> output) {
+        /* protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
@@ -440,8 +355,9 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }
+        */
 
-        @Override
+        /*@Override
         protected void onCancelled() {
             mProgress.hide();
             if (mLastError != null) {
@@ -452,7 +368,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity.REQUEST_AUTHORIZATION);
+                            com.example.quickstart.MainActivity.REQUEST_AUTHORIZATION);
                 } else {
                     mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());
@@ -461,7 +377,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 mOutputText.setText("Request cancelled.");
             }
         }
-    }
+        */
 
 
 }
