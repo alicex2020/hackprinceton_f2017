@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TestApp.iml" filepath="$PROJECT_DIR$/TestApp.iml" />
+      <module fileurl="file://C:\Users\Yash\Desktop\repositories\hackprince-f2017\TestApp\TestApp.iml" filepath="C:\Users\Yash\Desktop\repositories\hackprince-f2017\TestApp\TestApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Yash\Desktop\repositories\hackprince-f2017\TestApp\app\app.iml" filepath="C:\Users\Yash\Desktop\repositories\hackprince-f2017\TestApp\app\app.iml" />
     </modules>
   </component>
 </project>
