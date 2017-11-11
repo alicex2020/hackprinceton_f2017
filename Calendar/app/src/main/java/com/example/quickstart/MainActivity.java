@@ -118,7 +118,6 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 addFriendButton.setEnabled(true);
             }
         });
-
         activityLayout.addView(addFriendButton);
 
         mOutputText = new TextView(this);
@@ -163,15 +162,8 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     }
 
     private void match() {
-        if (! isGooglePlayServicesAvailable()) {
-            acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
-        } else {
-            //new matchTask().execute();
-        }
+        Intent intent = new Intent(this, MatchPage.class);
+        startActivity(intent);
     }
 
     private void addFriend() {

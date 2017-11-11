@@ -76,12 +76,27 @@ public class AddFriendsPage extends AppCompatActivity {
         setContentView(R.layout.activity_add_friends_page);
         //sharedPref = getActivity().getPreferences("test",0);
         //editor = sharedPref.edit();
+       /*
+        final EditText Email = (EditText) findViewById(R.id.inputEmail);
+        Email.setOnFocusChangeListener(new OnFocusChangeListener() {
 
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+
+                    Email.setText("");
+
+
+
+                });
+        */
     }
 
     public void Submit(View view) {
         EditText input = (EditText) findViewById(R.id.inputEmail);
         String string = input.getText().toString();
+        Toast.makeText(this, "User " + string + " created.", Toast.LENGTH_LONG).show();
+
 /*
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
                 .setApplicationName("applicationName").build();

@@ -13,14 +13,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="Google Calendar API Android Quickstart" />
+            android:label="test"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".AddFriendsPage"
             android:label="@string/title_activity_add_friends_page"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MatchPage" />
         <activity
-            android:name=".HomeScreenPage"
-            android:label="@string/title_activity_home_screen_page"
+            android:name=".StartPage"
+            android:label="@string/title_activity_start_page"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MatchPage"></activity>
     </application>
 
 </manifest>

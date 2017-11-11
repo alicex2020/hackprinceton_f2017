@@ -10,4 +10,6 @@ public class MatchPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_page);
     }
+
+
 }
