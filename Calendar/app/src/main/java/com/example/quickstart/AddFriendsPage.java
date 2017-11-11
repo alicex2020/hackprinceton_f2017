@@ -21,18 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddFriendsPage extends AppCompatActivity {
-    SharedPreferences sharedPref;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends_page);
-    }
-}
-        /*
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
     }
+
     public void onClick(View view) {
         EditText input = (EditText) findViewById(R.id.inputEmail);
         String string = input.getText().toString();
@@ -65,7 +63,7 @@ public class AddFriendsPage extends AppCompatActivity {
 
     }
 }
-*/
+
 
 
 
