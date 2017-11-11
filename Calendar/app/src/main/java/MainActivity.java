@@ -400,11 +400,13 @@ public class MainActivity extends Activity
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
+            DateTime max = new DateTime(2011-06-03T10:00:00-07:00)
             List<String> eventStrings = new ArrayList<String>();
-            Events events = mService.events().list("primary")
+            Events events = mService.events().list("primary", )
                     .setMaxResults(10)
                     .setTimeMin(now)
                     .setOrderBy("startTime")
+                    .set
                     .setSingleEvents(true)
                     .execute();
             List<Event> items = events.getItems();
