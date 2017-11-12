@@ -13,7 +13,7 @@
         android:id="@+id/imageView1"
         android:layout_width="151dp"
         android:layout_height="140dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="35dp"
         android:layout_marginEnd="145dp"
         android:layout_marginStart="145dp"
         android:layout_marginTop="150dp"
@@ -36,7 +36,7 @@
         android:layout_marginTop="75dp"
         android:backgroundTint="@color/common_google_signin_btn_text_light_pressed"
         android:ems="10"
-        android:hint="Your Friend's Email"
+        android:hint="        Your Friend's Email"
         android:inputType="textEmailAddress"
         android:singleLine="true"
         android:textAlignment="center"
@@ -45,7 +45,7 @@
         android:textColorHint="#B0B0B0"
         app:layout_constraintBottom_toTopOf="@+id/submitAddFriendB"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
@@ -62,7 +62,6 @@
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputEmail"
         app:layout_constraintVertical_bias="0.0" />
@@ -72,11 +71,11 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="51dp"
-        android:text="Done!"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="52dp"
         android:onClick="Done"
+        android:text="Done!"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submitAddFriendB" />
 
-    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
