@@ -381,7 +381,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .setApplicationName("Gymder")
                     .build();
         }
 
@@ -420,14 +420,17 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             List<Event> items = events.getItems();
 
             for (Event event : items) {
+                // find start and end times
                 DateTime start = event.getStart().getDateTime();
+                DateTime end = event.getEnd().getDateTime();
                 if (start == null) {
                     // All-day events don't have start times, so just use
                     // the start date.
                     start = event.getStart().getDate();
+                    end = event.getEnd().getDate();
                 }
                 eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
+                        String.format("%s (%s)-(%s)", event.getSummary(), start, end));
             }
             return eventStrings;
         }
