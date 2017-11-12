@@ -70,6 +70,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class AddFriendsPage extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +97,118 @@ public class AddFriendsPage extends AppCompatActivity {
         EditText input = (EditText) findViewById(R.id.inputEmail);
         String string = input.getText().toString();
         Toast.makeText(this, "Friend " + string + " added.", Toast.LENGTH_LONG).show();
+/*
+        GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+
+        getResultsFromApi();
+        */
     }
 
     public void Done(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+  //  private void getResultsFromApi() {
+  //      new AddFriendsPage.MakeRequestTask(mCredential).execute();
+  //  }
+}
+
+/*
+private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    private com.google.api.services.calendar.Calendar mService = null;
+    private Exception mLastError = null;
+
+    MakeRequestTask(GoogleAccountCredential credential) {
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        mService = new com.google.api.services.calendar.Calendar.Builder(
+                transport, jsonFactory, credential)
+                .setApplicationName("Google Calendar API Android Quickstart")
+                .build();
+    }
+
+
+    @Override
+    protected List<String> doInBackground(Void... params) {
+        try {
+            return getDataFromApi();
+        } catch (Exception e) {
+            mLastError = e;
+            cancel(true);
+            return null;
+        }
+    }
+
+    private List<String> getDataFromApi() throws IOException {
+        // List the next 10 events from the primary calendar.
+        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
+        List<String> eventStrings = new ArrayList<String>();
+        Events events = mService.events().list("primary")
+                .setMaxResults(10)
+                .setTimeMin(now)
+                .setTimeMax(max)
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute();
+        List<Event> items = events.getItems();
+
+        for (Event event : items) {
+            DateTime start = event.getStart().getDateTime();
+            if (start == null) {
+                // All-day events don't have start times, so just use
+                // the start date.
+                start = event.getStart().getDate();
+            }
+            eventStrings.add(
+                    String.format("%s (%s)", event.getSummary(), start));
+        }
+        return eventStrings;
+    }
+
+
+
+    protected void onPreExecute() {
+        mOutputText.setText("");
+        mProgress.show();
+    }
+
+    @Override
+    protected void onPostExecute(List<String> output) {
+        mProgress.hide();
+        if (output == null || output.size() == 0) {
+            mOutputText.setText("No results returned.");
+        } else {
+            output.add(0, "Data retrieved using the Google Calendar API:");
+            mOutputText.setText(TextUtils.join("\n", output));
+        }
+    }
+
+    @Override
+    protected void onCancelled() {
+        mProgress.hide();
+        if (mLastError != null) {
+            if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
+                showGooglePlayServicesAvailabilityErrorDialog(
+                        ((GooglePlayServicesAvailabilityIOException) mLastError)
+                                .getConnectionStatusCode());
+            } else if (mLastError instanceof UserRecoverableAuthIOException) {
+                startActivityForResult(
+                        ((UserRecoverableAuthIOException) mLastError).getIntent(),
+                        MainActivity.REQUEST_AUTHORIZATION);
+            } else {
+                mOutputText.setText("The following error occurred:\n"
+                        + mLastError.getMessage());
+            }
+        } else {
+            mOutputText.setText("Request cancelled.");
+        }
+    }
+}
+*/
 /*
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
                 .setApplicationName("applicationName").build();
@@ -134,7 +241,7 @@ public class AddFriendsPage extends AppCompatActivity {
         editor.commit();
         */
 
-}
+
 
 
 

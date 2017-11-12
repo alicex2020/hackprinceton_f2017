@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/common_google_signin_btn_text_light_pressed">
 
     <Button
         android:id="@+id/mGetCalendar"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp"
-        android:text="Get Calendar"
-        />
+        android:layout_marginTop="52dp"
+        android:text="Get Calendar" />
 
     <Button
         android:id="@+id/match"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/mGetCalendar"
         android:layout_alignRight="@+id/mGetCalendar"
-        android:layout_below="@+id/mGetCalendar"
-        android:layout_marginTop="15dp"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="24dp"
         android:text="Find a Match" />
 
     <TextView
@@ -29,17 +31,59 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/mGetCalendar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:text="TextView" />
+        android:layout_marginTop="23dp"
+        android:width="200dp"
+        android:height="175dp"
+        android:textColor="#b0b0b0" />
 
     <Button
         android:id="@+id/addFriend"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/match"
+        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="27dp"
         android:text="Add Friend" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="View your calendar anytime with Gymder"
+        android:textColor="#b0b0b0" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OutputText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="Add your friends on your Gymder"
+        android:textColor="#B0B0B0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addFriend"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:text="Find out who's free now to work out!"
+        android:textColor="#b0b0b0" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="151dp"
+        android:layout_height="140dp"
+        android:layout_alignTop="@+id/OutputText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/logo" />
 </RelativeLayout>
