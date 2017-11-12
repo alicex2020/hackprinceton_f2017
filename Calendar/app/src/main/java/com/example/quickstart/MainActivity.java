@@ -41,9 +41,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.Calendar;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -423,14 +422,54 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 // find start and end times
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
+                StringBuilder sb = new StringBuilder();
+
+                TimeZone GMT = TimeZone.getTimeZone("GMT");
+                // create calendar times for start and end
+                java.util.Calendar dateTimeStart = new GregorianCalendar(GMT);
+                long localTimeStart = start.getValue() + (start.getTimeZoneShift() * 60000L);
+                dateTimeStart.setTimeInMillis(localTimeStart);
+
+                java.util.Calendar dateTimeEnd = new GregorianCalendar(GMT);
+                long localTimeEnd = start.getValue() + (end.getTimeZoneShift() * 60000L);
+                dateTimeEnd.setTimeInMillis(localTimeEnd);
+
+                // Add event name
+                sb.append(event.getSummary());
+                sb.append(" (");
+
                 if (start == null) {
                     // All-day events don't have start times, so just use
                     // the start date.
                     start = event.getStart().getDate();
                     end = event.getEnd().getDate();
+
+                    sb.append(start.toString().substring(4));
+                    sb.append(" - ");
+                    sb.append(end.toString().substring(4));
                 }
+                else {
+                    // Add start date
+                    DateTime.appendInt(sb, dateTimeStart.get(Calendar.MONTH) + 1, 2);
+                    sb.append("/");
+                    DateTime.appendInt(sb, dateTimeStart.get(Calendar.DAY_OF_MONTH), 2);
+                    sb.append(": ");
+
+                    // Add times
+                    DateTime.appendInt(sb, dateTimeStart.get(Calendar.HOUR_OF_DAY), 2);
+                    sb.append(':');
+                    DateTime.appendInt(sb, dateTimeStart.get(Calendar.MINUTE), 2);
+                    sb.append(" - ");
+                    DateTime.appendInt(sb, dateTimeEnd.get(Calendar.HOUR_OF_DAY), 2);
+                    sb.append(':');
+                    DateTime.appendInt(sb, dateTimeEnd.get(Calendar.MINUTE), 2);
+                }
+                sb.append(")");
+
                 eventStrings.add(
-                        String.format("%s (%s)-(%s)", event.getSummary(), start, end));
+                        sb.toString()
+//                        String.format("%s (%s)-(%s)", event.getSummary(), start, end)
+                );
             }
             return eventStrings;
         }
