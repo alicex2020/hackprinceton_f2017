@@ -70,6 +70,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class AddFriendsPage extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+    private static final String PREF_ACCOUNT_NAME = "accountName";
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    GoogleAccountCredential mCredential;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +100,13 @@ public class AddFriendsPage extends AppCompatActivity {
         EditText input = (EditText) findViewById(R.id.inputEmail);
         String string = input.getText().toString();
         Toast.makeText(this, "Friend " + string + " added.", Toast.LENGTH_LONG).show();
-/*
+
         GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
         getResultsFromApi();
-        */
+
     }
 
     public void Done(View view) {
@@ -111,12 +114,12 @@ public class AddFriendsPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-  //  private void getResultsFromApi() {
-  //      new AddFriendsPage.MakeRequestTask(mCredential).execute();
-  //  }
-}
+    private void getResultsFromApi() {
+        new AddFriendsPage.MakeRequestTask(mCredential).execute();
+    }
 
-/*
+
+
 private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
     private com.google.api.services.calendar.Calendar mService = null;
     private Exception mLastError = null;

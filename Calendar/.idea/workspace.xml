@@ -14,20 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7be7aad7-9a9c-4a3b-8a20-95c03c5fb56a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v24/my_border.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main_page.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main_page.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_add_friends_page.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_add_friends_page.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_match2.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_match2.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,13 +38,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddFriendsPage.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddFriendsPage.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="96" column="56" lean-forward="false" selection-start-line="96" selection-start-column="56" selection-end-line="96" selection-end-column="56" />
+            <state relative-caret-position="445">
+              <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding>
-                <marker date="1510454977000" expanded="false" signature="7965:7973" ph="&lt;~&gt;" />
+                <element signature="e#4321#4322#0" expanded="true" />
+                <element signature="e#4394#4395#0" expanded="true" />
+                <element signature="e#5585#5593#0" expanded="true" />
+                <marker date="1510455758000" expanded="false" signature="8133:8141" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -67,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="53" column="27" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="27" />
+              <caret line="53" column="26" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding>
                 <element signature="e#3834#4127#0" expanded="true" />
                 <element signature="e#4126#4127#0" expanded="true" />
@@ -81,7 +71,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main_page.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activity_main_page.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_page.xml">
           <provider selected="true" editor-type-id="android-designer2">
             <state />
@@ -1934,10 +1924,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/quickstart/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/my_border.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_match2.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable-v24/my_border.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_add_friends_page.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main_page.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java" />
       </list>
     </option>
   </component>
@@ -2205,7 +2195,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455496155" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455759923" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2253,7 +2243,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455496155" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455759923" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2436,7 +2426,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455496171" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510455759925" />
       </method>
     </configuration>
     <list size="1">
@@ -2576,7 +2566,10 @@
         <state relative-caret-position="360">
           <caret line="42" column="32" lean-forward="true" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
           <folding>
-            <marker date="1510454977000" expanded="false" signature="7965:7973" ph="&lt;~&gt;" />
+            <element signature="e#4321#4322#0" expanded="true" />
+            <element signature="e#4394#4395#0" expanded="true" />
+            <element signature="e#5585#5593#0" expanded="true" />
+            <marker date="1510455758000" expanded="false" signature="8133:8141" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -2805,37 +2798,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="53" column="27" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="27" />
-          <folding>
-            <element signature="e#3834#4127#0" expanded="true" />
-            <element signature="e#4126#4127#0" expanded="true" />
-            <element signature="e#4316#4550#0" expanded="true" />
-            <element signature="e#4549#4550#0" expanded="true" />
-            <element signature="e#4739#4985#0" expanded="true" />
-            <element signature="e#4984#4985#0" expanded="true" />
-            <element signature="e#16371#16379#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-v24/my_border.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="12" lean-forward="false" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="96" column="56" lean-forward="false" selection-start-line="96" selection-start-column="56" selection-end-line="96" selection-end-column="56" />
-          <folding>
-            <marker date="1510454977000" expanded="false" signature="7965:7973" ph="&lt;~&gt;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2860,6 +2827,35 @@
         <state relative-caret-position="1260">
           <caret line="88" column="17" lean-forward="false" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="53" column="26" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding>
+            <element signature="e#3834#4127#0" expanded="true" />
+            <element signature="e#4126#4127#0" expanded="true" />
+            <element signature="e#4316#4550#0" expanded="true" />
+            <element signature="e#4549#4550#0" expanded="true" />
+            <element signature="e#4739#4985#0" expanded="true" />
+            <element signature="e#4984#4985#0" expanded="true" />
+            <element signature="e#16371#16379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quickstart/AddFriendsPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding>
+            <element signature="e#4321#4322#0" expanded="true" />
+            <element signature="e#4394#4395#0" expanded="true" />
+            <element signature="e#5585#5593#0" expanded="true" />
+            <marker date="1510455758000" expanded="false" signature="8133:8141" ph="&lt;~&gt;" />
+          </folding>
         </state>
       </provider>
     </entry>
