@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.quickstart.AddFriendsPage"
+    tools:showIn="@layout/activity_add_friends_page"
+    android:background="@color/common_google_signin_btn_text_light_pressed">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="151dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="35dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/inputEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/inputEmail"
+        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+        android:layout_width="263dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="59dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="75dp"
+        android:backgroundTint="@color/common_google_signin_btn_text_light_pressed"
+        android:ems="10"
+        android:hint="        Your Friend's Email"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+        android:textColor="#D0D0D0"
+        android:textColorHint="#B0B0B0"
+        app:layout_constraintBottom_toTopOf="@+id/submitAddFriendB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+
+    <Button
+        android:id="@+id/submitAddFriendB"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="220dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="33dp"
+        android:onClick="Submit"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmail"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="52dp"
+        android:onClick="Done"
+        android:text="Done!"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitAddFriendB" />
+
+</android.support.constraint.ConstraintLayout>
