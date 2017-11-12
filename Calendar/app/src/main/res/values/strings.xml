@@ -3,4 +3,5 @@
     <string name="title_activity_add_friends_page">AddFriendsPage</string>
     <string name="title_activity_home_screen_page">HomeScreenPage</string>
     <string name="title_activity_start_page">StartPage</string>
+    <string name="title_activity_match2">Match2</string>
 </resources>

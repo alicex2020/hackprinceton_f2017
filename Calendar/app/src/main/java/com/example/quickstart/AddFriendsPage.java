@@ -95,8 +95,13 @@ public class AddFriendsPage extends AppCompatActivity {
     public void Submit(View view) {
         EditText input = (EditText) findViewById(R.id.inputEmail);
         String string = input.getText().toString();
-        Toast.makeText(this, "User " + string + " created.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Friend " + string + " added.", Toast.LENGTH_LONG).show();
+    }
 
+    public void Done(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 /*
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
                 .setApplicationName("applicationName").build();
@@ -128,7 +133,7 @@ public class AddFriendsPage extends AppCompatActivity {
         editor.putStringSet(string, eventStrings);
         editor.commit();
         */
-    }
+
 }
 
 

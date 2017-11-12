@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends Activity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
+
     private TextView mOutputText;
     private Button mCallApiButton, matchButton, addFriendButton;
     ProgressDialog mProgress;
@@ -71,13 +73,23 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
+        setContentView(R.layout.activity_main_page);
+        mOutputText =  (TextView) findViewById(R.id.OutputText);
+        mCallApiButton = (Button) findViewById(R.id.mGetCalendar);
+        matchButton = (Button) findViewById(R.id.match);
+        addFriendButton = (Button) findViewById(R.id.addFriend);
+        /*RelativeLayout activityLayout = new RelativeLayout(this);
+
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(100, 200);
+
+        ).LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
         activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
         activityLayout.setPadding(16, 16, 16, 16);
+
+
 
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -85,26 +97,11 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
         mCallApiButton = new Button(this);
         mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="250dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="33dp"
-        android:text="Add"
-        android:onClick="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmail"
-        app:layout_constraintVertical_bias="0.0"
 
 
 
 
-
+*/
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,10 +111,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 mCallApiButton.setEnabled(true);
             }
         });
-        activityLayout.addView(mCallApiButton);
+       // activityLayout.addView(mCallApiButton);
 
-        matchButton = new Button(this);
-        matchButton.setText("Find Your Gym Buddy");
+       // matchButton = new Button(this);
+       // matchButton.setText("Find Your Gym Buddy");
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,10 +123,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 matchButton.setEnabled(true);
             }
         });
-        activityLayout.addView(matchButton);
+       // activityLayout.addView(matchButton);
 
-        addFriendButton = new Button(this);
-        addFriendButton.setText("Add Friend");
+       // addFriendButton = new Button(this);
+       // addFriendButton.setText("Add Friend");
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,21 +135,21 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 addFriendButton.setEnabled(true);
             }
         });
-        activityLayout.addView(addFriendButton);
+       // activityLayout.addView(addFriendButton);
 
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
+       // mOutputText = new TextView(this);
+       // mOutputText.setLayoutParams(tlp);
+       // mOutputText.setPadding(16, 16, 16, 16);
+       // mOutputText.setVerticalScrollBarEnabled(true);
+       // mOutputText.setMovementMethod(new ScrollingMovementMethod());
+       // mOutputText.setText(
+        //        "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
+       // activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
+        mProgress.setMessage("Retrieving Your Calendar ...");
 
-        setContentView(activityLayout);
+       // setContentView(activityLayout);
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -182,7 +179,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     }
 
     private void match() {
-        Intent intent = new Intent(this, MatchPage.class);
+        Intent intent = new Intent(this, Match2.class);
         startActivity(intent);
     }
 
