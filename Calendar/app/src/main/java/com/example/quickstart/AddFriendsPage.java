@@ -22,6 +22,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -64,6 +65,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
+import java.util.*;
+//import java.util.Calendar;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -78,6 +83,8 @@ public class AddFriendsPage extends AppCompatActivity {
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
+    //static final HashMap<String, Stack<Integer>> friendsCalendars;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -309,6 +316,96 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         }
     }
 
+
+    /** Appends a zero-padded number to a string builder. */
+    private void appendI(StringBuilder sbe, int num, int numDigits) {
+        if (num < 0) {
+            sbe.append('-');
+            num = -num;
+        }
+        int x = num;
+        while (x > 0) {
+            x /= 10;
+            numDigits--;
+        }
+        for (int i = 0; i < numDigits; i++) {
+            sbe.append('0');
+        }
+        if (num != 0) {
+            sbe.append(num);
+        }
+    }
+    private List<String> getDataFromApi() throws IOException {
+
+
+        // List the next 10 events from the primary calendar.
+        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
+        List<String> eventStrings = new ArrayList<String>();
+        Events events = mService.events().list(friendEmail)
+                .setMaxResults(10)
+                .setTimeMin(now)
+                .setTimeMax(max)
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute();
+        List<Event> items = events.getItems();
+
+        for (Event event : items) {
+            // find start and end times
+            DateTime start = event.getStart().getDateTime();
+            DateTime end = event.getEnd().getDateTime();
+            StringBuilder sb = new StringBuilder();
+
+            TimeZone GMT = TimeZone.getTimeZone("GMT");
+            // create calendar times for start and end
+            java.util.Calendar dateTimeStart = new GregorianCalendar(GMT);
+            long localTimeStart = start.getValue() + (start.getTimeZoneShift() * 60000L);
+            dateTimeStart.setTimeInMillis(localTimeStart);
+
+            java.util.Calendar dateTimeEnd = new GregorianCalendar(GMT);
+            long localTimeEnd = end.getValue() + (end.getTimeZoneShift() * 60000L);
+            dateTimeEnd.setTimeInMillis(localTimeEnd);
+
+            // Add event name
+            sb.append("busy");
+            sb.append(" (");
+
+            if (start == null) {
+                // All-day events don't have start times, so just use
+                // the start date.
+                start = event.getStart().getDate();
+                end = event.getEnd().getDate();
+
+                sb.append(start.toString().substring(4));
+                sb.append(" - ");
+                sb.append(end.toString().substring(4));
+            }                 else {
+                // Add start date
+                appendI(sb, dateTimeStart.get(java.util.Calendar.MONTH) + 1, 2);
+                sb.append("/");
+                appendI(sb, dateTimeStart.get(java.util.Calendar.DAY_OF_MONTH), 2);
+                sb.append(": ");
+
+                // Add times
+                appendI(sb, dateTimeStart.get(java.util.Calendar.HOUR_OF_DAY), 2);
+                sb.append(':');
+                appendI(sb, dateTimeStart.get(java.util.Calendar.MINUTE), 2);
+                sb.append(" - ");
+                appendI(sb, dateTimeEnd.get(java.util.Calendar.HOUR_OF_DAY), 2);
+                sb.append(':');
+                appendI(sb, dateTimeEnd.get(java.util.Calendar.MINUTE), 2);
+            }
+            sb.append(")");
+
+            eventStrings.add(
+                    sb.toString()
+//                        String.format("%s (%s)-(%s)", event.getSummary(), start, end)
+            );
+        }
+        return eventStrings;
+    }
+    /*
     private List<String> getDataFromApi() throws IOException {
         DateTime now = new DateTime(System.currentTimeMillis());
         DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
@@ -327,13 +424,14 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
                 // All-day events don't have start times, so just use
                 // the start date.
                 start = event.getStart().getDate();
+
             }
             eventStrings.add(
                     String.format("%s (%s)", event.getSummary(), start));
         }
         return eventStrings;
     }
-
+*/
 
 
     protected void onPreExecute() {

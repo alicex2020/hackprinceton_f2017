@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,7 +44,9 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -66,6 +69,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
+    private ImageView logo;
     /**
      * Create the main activity.
      * @param savedInstanceState previously saved instance data.
@@ -74,6 +78,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        logo = (ImageView) findViewById(R.id.imageView1);
         mOutputText =  (TextView) findViewById(R.id.OutputText);
         mCallApiButton = (Button) findViewById(R.id.mGetCalendar);
         matchButton = (Button) findViewById(R.id.match);
@@ -108,7 +113,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 mCallApiButton.setEnabled(false);
                 mOutputText.setText("");
                 getResultsFromApi();
+
                 mCallApiButton.setEnabled(true);
+                logo.setVisibility(View.INVISIBLE);
+
             }
         });
        // activityLayout.addView(mCallApiButton);
@@ -405,35 +413,94 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-            private List<String> getDataFromApi() throws IOException {
-                // List the next 10 events from the primary calendar.
-                DateTime now = new DateTime(System.currentTimeMillis());
-                DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
-                List<String> eventStrings = new ArrayList<String>();
-                Events events = mService.events().list("primary")
-                        .setMaxResults(10)
-                        .setTimeMin(now)
-                        .setTimeMax(max)
-                        .setOrderBy("startTime")
-                        .setSingleEvents(true)
-                        .execute();
-                List<Event> items = events.getItems();
-
-                for (Event event : items) {
-                    // find start and end times
-                    DateTime start = event.getStart().getDateTime();
-                    DateTime end = event.getEnd().getDateTime();
-                    if (start == null) {
-                        // All-day events don't have start times, so just use
-                        // the start date.
-                        start = event.getStart().getDate();
-                        end = event.getEnd().getDate();
-                    }
-                    eventStrings.add(
-                            String.format("%s (%s)-(%s)", event.getSummary(), start, end));
-                }
-                return eventStrings;
+        /** Appends a zero-padded number to a string builder. */
+        private void appendI(StringBuilder sbe, int num, int numDigits) {
+            if (num < 0) {
+                sbe.append('-');
+                num = -num;
             }
+            int x = num;
+            while (x > 0) {
+                x /= 10;
+                numDigits--;
+            }
+            for (int i = 0; i < numDigits; i++) {
+                sbe.append('0');
+            }
+            if (num != 0) {
+                sbe.append(num);
+            }
+        }
+        private List<String> getDataFromApi() throws IOException {
+
+
+            // List the next 10 events from the primary calendar.
+            DateTime now = new DateTime(System.currentTimeMillis());
+            DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
+            List<String> eventStrings = new ArrayList<String>();
+            Events events = mService.events().list("primary")
+                    .setMaxResults(10)
+                    .setTimeMin(now)
+                    .setTimeMax(max)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+            List<Event> items = events.getItems();
+
+            for (Event event : items) {
+                // find start and end times
+                DateTime start = event.getStart().getDateTime();
+                DateTime end = event.getEnd().getDateTime();
+                StringBuilder sb = new StringBuilder();
+
+                TimeZone GMT = TimeZone.getTimeZone("GMT");
+                // create calendar times for start and end
+                java.util.Calendar dateTimeStart = new GregorianCalendar(GMT);
+                long localTimeStart = start.getValue() + (start.getTimeZoneShift() * 60000L);
+                dateTimeStart.setTimeInMillis(localTimeStart);
+
+                java.util.Calendar dateTimeEnd = new GregorianCalendar(GMT);
+                long localTimeEnd = end.getValue() + (end.getTimeZoneShift() * 60000L);
+                dateTimeEnd.setTimeInMillis(localTimeEnd);
+
+                // Add event name
+                sb.append(event.getSummary());
+                sb.append(" (");
+
+                if (start == null) {
+                    // All-day events don't have start times, so just use
+                    // the start date.
+                    start = event.getStart().getDate();
+                    end = event.getEnd().getDate();
+
+                    sb.append(start.toString().substring(4));
+                    sb.append(" - ");
+                    sb.append(end.toString().substring(4));
+                }                 else {
+                    // Add start date
+                    appendI(sb, dateTimeStart.get(java.util.Calendar.MONTH) + 1, 2);
+                    sb.append("/");
+                    appendI(sb, dateTimeStart.get(java.util.Calendar.DAY_OF_MONTH), 2);
+                    sb.append(": ");
+
+                    // Add times
+                    appendI(sb, dateTimeStart.get(java.util.Calendar.HOUR_OF_DAY), 2);
+                    sb.append(':');
+                    appendI(sb, dateTimeStart.get(java.util.Calendar.MINUTE), 2);
+                    sb.append(" - ");
+                    appendI(sb, dateTimeEnd.get(java.util.Calendar.HOUR_OF_DAY), 2);
+                    sb.append(':');
+                    appendI(sb, dateTimeEnd.get(java.util.Calendar.MINUTE), 2);
+                }
+                sb.append(")");
+
+                eventStrings.add(
+                        sb.toString()
+//                        String.format("%s (%s)-(%s)", event.getSummary(), start, end)
+                );
+            }
+            return eventStrings;
+        }
             /*
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());

@@ -6,43 +6,92 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.quickstart.Match2"
-    tools:showIn="@layout/activity_match2">
+    tools:showIn="@layout/activity_match2"
+    android:background="@color/common_google_signin_btn_text_light_pressed">
+
+    <Button
+        android:id="@+id/Match1"
+        style="@android:style/Widget.Material.Button.Borderless.Colored"
+        android:layout_width="175dp"
+        android:layout_height="36dp"
+        android:layout_above="@+id/imageView3"
+        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_toLeftOf="@+id/imageView4"
+        android:layout_toStartOf="@+id/imageView4"
+        android:background="@drawable/my_border"
+        android:backgroundTint="@color/colorAccent"
+        android:gravity="center"
+        android:text="Send Yash a message"
+        android:textAlignment="center"
+        android:textColor="    #fffafa"
+        android:textSize="14sp" />
+
+
+    <Button
+        android:id="@+id/Match2"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="175dp"
+        android:layout_height="36dp"
+        android:layout_alignBottom="@+id/imageView3"
+        android:layout_alignLeft="@+id/Match1"
+        android:layout_alignStart="@+id/Match1"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/my_border"
+        android:backgroundTint="@color/colorAccent"
+        android:gravity="center"
+        android:text="Send Khyati a message"
+        android:textAlignment="center"
+        android:textColor="    #fffafa"
+        android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/Match1"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="86dp"
-        android:background="@drawable/my_border"
-        android:text="Yash is free at 6pm"
-        android:textSize="30sp" />
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:text="Here are your friends who are free for the next hour!"
+        android:textColor="    #fffafa"
+        android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/MisMatch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Match1"
-        android:layout_marginTop="81dp"
-        android:background="@drawable/my_border"
-        android:text="Khyati is not free today"
-        android:textSize="30sp" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/imageView4"
+        android:layout_alignStart="@+id/imageView4"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginTop="99dp"
+        app:srcCompat="@drawable/khyati" />
 
-    <TextView
-        android:id="@+id/MisMatch2"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Message"
+        android:layout_marginEnd="37dp"
+        android:layout_marginRight="37dp"
+        android:layout_marginTop="78dp"
+        app:srcCompat="@drawable/yash" />
+
+    <EditText
+        android:id="@+id/Message"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Match1"
-        android:layout_marginTop="193dp"
-        android:text="Alice is not free today"
-        android:textSize="30sp"
-        android:background="@drawable/my_border"
-        />
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:hint="Type your message here"
+        android:gravity="center"
+        android:textColorHint=" #b0b0b0"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
 
 </RelativeLayout>
