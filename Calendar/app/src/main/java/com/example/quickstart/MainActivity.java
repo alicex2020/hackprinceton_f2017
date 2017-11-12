@@ -405,7 +405,36 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws IOException {
+            private List<String> getDataFromApi() throws IOException {
+                // List the next 10 events from the primary calendar.
+                DateTime now = new DateTime(System.currentTimeMillis());
+                DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
+                List<String> eventStrings = new ArrayList<String>();
+                Events events = mService.events().list("primary")
+                        .setMaxResults(10)
+                        .setTimeMin(now)
+                        .setTimeMax(max)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
+                List<Event> items = events.getItems();
+
+                for (Event event : items) {
+                    // find start and end times
+                    DateTime start = event.getStart().getDateTime();
+                    DateTime end = event.getEnd().getDateTime();
+                    if (start == null) {
+                        // All-day events don't have start times, so just use
+                        // the start date.
+                        start = event.getStart().getDate();
+                        end = event.getEnd().getDate();
+                    }
+                    eventStrings.add(
+                            String.format("%s (%s)-(%s)", event.getSummary(), start, end));
+                }
+                return eventStrings;
+            }
+            /*
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
@@ -430,7 +459,8 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                         String.format("%s (%s)", event.getSummary(), start));
             }
             return eventStrings;
-        }
+            */
+
 
 
         @Override
