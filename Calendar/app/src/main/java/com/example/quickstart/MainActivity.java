@@ -66,6 +66,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int MS_PER_DAY = 24*60*60*1000;
 
     private static final String BUTTON_TEXT = "Login to Google";
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -402,7 +403,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .setApplicationName("Gymder")
                     .build();
         }
 
@@ -551,6 +552,8 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
                 }
             }
+            long rem = tempend % MS_PER_DAY;
+            endFrQ.add(tempend + MS_PER_DAY - rem);
         }
 
 
@@ -596,7 +599,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+                output.add(0, "Data retrieved from Google Calendar:");
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }

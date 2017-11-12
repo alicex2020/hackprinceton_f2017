@@ -37,7 +37,7 @@ import android.widget.Toast;
 public class Match2 extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
-    String noYash = "2026440773", noKhyati = "9737354069", message, phoneNo;
+    String noYash = "ygovil@princeton.edu", noKhyati = "khyatia@princeton.edu", message, email;
     EditText text;
     Button sendY, sendK;
 
@@ -52,63 +52,32 @@ public class Match2 extends AppCompatActivity {
 
         sendK.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                phoneNo = noKhyati;
-                sendSMSMessage();
+                email = noKhyati;
+                sendEmail();
             }
         });
         sendY.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                phoneNo = noYash;
-                sendSMSMessage();
+                email = noYash;
+                sendEmail();
             }
         });
 
     }
 
-    protected void sendSMSMessage() {
+    protected void sendEmail() {
         message = text.getText().toString();
-
-        /*if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.SEND_SMS)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS},
-                        MY_PERMISSIONS_REQUEST_SEND_SMS);
-            }
-        }*/
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Your Gymder match!");
+        i.putExtra(Intent.EXTRA_TEXT   , message);
         try {
-            android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-            Toast.makeText(getApplicationContext(), "SMS Sent!",
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),
-                    "SMS failed, please try again later!",
-                    Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(Match2.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
 
     }
 }
-   /* @Override
-    /*public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, message, null, null);
-                    Toast.makeText(getApplicationContext(), "SMS sent.",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "SMS failed, please try again.", Toast.LENGTH_LONG).show();
-                            }
-                    return;
-                }
-            }
-        }*/

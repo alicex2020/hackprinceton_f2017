@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -83,6 +84,12 @@ public class AddFriendsPage extends AppCompatActivity {
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int MS_PER_DAY = 24*60*60*1000;
+
+    private PriorityQueue<Long> startQ, endQ;
+    private LinkedList<Long> startFrQ, endFrQ;
+
+    private ImageView logo;
 
     //static final HashMap<String, Stack<Integer>> friendsCalendars;
     @Override
@@ -92,6 +99,8 @@ public class AddFriendsPage extends AppCompatActivity {
         mOutputText =  (TextView) findViewById(R.id.OutputText);
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Retrieving Friend's Calendar ...");
+        logo = (ImageView) findViewById(R.id.imageView1);
+
     }
 
     public void Submit(View view) {
@@ -103,6 +112,8 @@ public class AddFriendsPage extends AppCompatActivity {
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         getResultsFromApi();
+        logo.setVisibility(View.INVISIBLE);
+
     }
 
     public void Done(View view) {
@@ -337,7 +348,8 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
     }
     private List<String> getDataFromApi() throws IOException {
 
-
+        startQ = new PriorityQueue<Long>();
+        endQ = new PriorityQueue<Long>();
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
@@ -355,6 +367,14 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
             // find start and end times
             DateTime start = event.getStart().getDateTime();
             DateTime end = event.getEnd().getDateTime();
+            startQ.add(start.getValue());
+            endQ.add(end.getValue());
+
+        }
+        findFree(now.getValue());
+        for (int i = 0; i <= startFrQ.size()+1; i++) {
+            DateTime start = new DateTime(startFrQ.poll());
+            DateTime end = new DateTime(endFrQ.poll());
             StringBuilder sb = new StringBuilder();
 
             TimeZone GMT = TimeZone.getTimeZone("GMT");
@@ -367,20 +387,21 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
             long localTimeEnd = end.getValue() + (end.getTimeZoneShift() * 60000L);
             dateTimeEnd.setTimeInMillis(localTimeEnd);
 
+
             // Add event name
-            sb.append("busy");
+            sb.append("free");
             sb.append(" (");
 
-            if (start == null) {
-                // All-day events don't have start times, so just use
-                // the start date.
-                start = event.getStart().getDate();
-                end = event.getEnd().getDate();
-
-                sb.append(start.toString().substring(4));
-                sb.append(" - ");
-                sb.append(end.toString().substring(4));
-            }                 else {
+//            if (start == null) {
+//                // All-day events don't have start times, so just use
+//                // the start date.
+//                start = event.getStart().getDate();
+//                end = event.getEnd().getDate();
+//
+//                sb.append(start.toString().substring(4));
+//                sb.append(" - ");
+//                sb.append(end.toString().substring(4));
+//            }                 else {
                 // Add start date
                 appendI(sb, dateTimeStart.get(java.util.Calendar.MONTH) + 1, 2);
                 sb.append("/");
@@ -395,7 +416,7 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
                 appendI(sb, dateTimeEnd.get(java.util.Calendar.HOUR_OF_DAY), 2);
                 sb.append(':');
                 appendI(sb, dateTimeEnd.get(java.util.Calendar.MINUTE), 2);
-            }
+            //}
             sb.append(")");
 
             eventStrings.add(
@@ -404,6 +425,49 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
             );
         }
         return eventStrings;
+    }
+
+    private void findFree(long now) {
+        assert startQ != null;
+        assert endQ != null;
+        if (startQ.isEmpty()) return;
+        if (endQ.isEmpty()) return;
+        startFrQ = new LinkedList<Long>();
+        endFrQ = new LinkedList<Long>();
+        int count = 0;
+        long tempstart = startQ.poll();
+        long tempend = endQ.poll();
+
+        if (now < tempstart) {
+            startFrQ.addLast(now);
+        }
+
+        for (int i = 0; i <= startQ.size()+2; i++) {
+        //while (!endQ.isEmpty() && !startQ.isEmpty()) {
+            if (tempstart < tempend) {
+                count++;
+                if (count == 1) endFrQ.addLast(tempstart);
+                if (startQ.isEmpty()) tempstart = Long.MAX_VALUE;
+                else tempstart = startQ.poll();
+            }
+
+            else if (tempstart == tempend) {
+                if (endQ.isEmpty()) tempend = Long.MIN_VALUE;
+                else tempend = endQ.poll();
+                if (startQ.isEmpty()) tempstart = Long.MAX_VALUE;
+                else tempstart = startQ.poll();
+            }
+
+            else if (tempstart > tempend) {
+                count--;
+                if (count == 0) startFrQ.addLast(tempend);
+                if (endQ.isEmpty()) tempend = Long.MIN_VALUE;
+                else tempend = endQ.poll();
+
+            }
+        }
+        long rem = tempstart % MS_PER_DAY;
+        endFrQ.add(tempstart + MS_PER_DAY - rem);
     }
     /*
     private List<String> getDataFromApi() throws IOException {
@@ -445,7 +509,7 @@ private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         if (output == null || output.size() == 0) {
             mOutputText.setText("No results returned.");
         } else {
-            output.add(0, "Data retrieved using the Google Calendar API:");
+            output.add(0, "Friend's Free Times for Today:");
             mOutputText.setText(TextUtils.join("\n", output));
         }
     }
