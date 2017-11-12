@@ -23,20 +23,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Bundle;
+//import android.telephony.gsm.SmsManager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 
 public class Match2 extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
-    String  noYash = "2026440773", noKhyati = "9737354069", message, phoneNo;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
+    String noYash = "2026440773", noKhyati = "9737354069", message, phoneNo;
     EditText text;
-    Button  sendY, sendK;
+    Button sendY, sendK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match2);
-        sendK = (Button) findViewById(R.id.Match2) ;
-        sendY = (Button) findViewById(R.id.Match1) ;
+        sendK = (Button) findViewById(R.id.Match2);
+        sendY = (Button) findViewById(R.id.Match1);
         text = (EditText) findViewById(R.id.Message);
 
 
@@ -59,7 +69,7 @@ public class Match2 extends AppCompatActivity {
     protected void sendSMSMessage() {
         message = text.getText().toString();
 
-        if (ContextCompat.checkSelfPermission(this,
+        /*if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -69,11 +79,23 @@ public class Match2 extends AppCompatActivity {
                         new String[]{Manifest.permission.SEND_SMS},
                         MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
+        }*/
+        try {
+            android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            Toast.makeText(getApplicationContext(), "SMS Sent!",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),
+                    "SMS failed, please try again later!",
+                    Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    }
+}
+   /* @Override
+    /*public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
@@ -85,10 +107,8 @@ public class Match2 extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "SMS failed, please try again.", Toast.LENGTH_LONG).show();
+                            }
                     return;
                 }
             }
-        }
-
-    }
-}
+        }*/

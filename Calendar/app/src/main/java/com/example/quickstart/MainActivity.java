@@ -42,11 +42,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
+//        ArrayList;
+//import java.util.Arrays;
+//import java.util.GregorianCalendar;
+//import java.util.List;
+//import java.util.PriorityQueue;
+//import java.util.TimeZone;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -67,11 +69,16 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
     private static final String BUTTON_TEXT = "Login to Google";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     private ImageView logo;
+
+    private PriorityQueue<Long> startQ, endQ;
+    private LinkedList<Long> startFrQ, endFrQ;
+
     /**
      * Create the main activity.
+     *
      * @param savedInstanceState previously saved instance data.
      */
     @Override
@@ -79,7 +86,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         logo = (ImageView) findViewById(R.id.imageView1);
-        mOutputText =  (TextView) findViewById(R.id.OutputText);
+        mOutputText = (TextView) findViewById(R.id.OutputText);
         mCallApiButton = (Button) findViewById(R.id.mGetCalendar);
         matchButton = (Button) findViewById(R.id.match);
         addFriendButton = (Button) findViewById(R.id.addFriend);
@@ -119,10 +126,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
             }
         });
-       // activityLayout.addView(mCallApiButton);
+        // activityLayout.addView(mCallApiButton);
 
-       // matchButton = new Button(this);
-       // matchButton.setText("Find Your Gym Buddy");
+        // matchButton = new Button(this);
+        // matchButton.setText("Find Your Gym Buddy");
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,10 +138,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 matchButton.setEnabled(true);
             }
         });
-       // activityLayout.addView(matchButton);
+        // activityLayout.addView(matchButton);
 
-       // addFriendButton = new Button(this);
-       // addFriendButton.setText("Add Friend");
+        // addFriendButton = new Button(this);
+        // addFriendButton.setText("Add Friend");
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,28 +150,27 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 addFriendButton.setEnabled(true);
             }
         });
-       // activityLayout.addView(addFriendButton);
+        // activityLayout.addView(addFriendButton);
 
-       // mOutputText = new TextView(this);
-       // mOutputText.setLayoutParams(tlp);
-       // mOutputText.setPadding(16, 16, 16, 16);
-       // mOutputText.setVerticalScrollBarEnabled(true);
-       // mOutputText.setMovementMethod(new ScrollingMovementMethod());
-       // mOutputText.setText(
+        // mOutputText = new TextView(this);
+        // mOutputText.setLayoutParams(tlp);
+        // mOutputText.setPadding(16, 16, 16, 16);
+        // mOutputText.setVerticalScrollBarEnabled(true);
+        // mOutputText.setMovementMethod(new ScrollingMovementMethod());
+        // mOutputText.setText(
         //        "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-       // activityLayout.addView(mOutputText);
+        // activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Retrieving Your Calendar ...");
 
-       // setContentView(activityLayout);
+        // setContentView(activityLayout);
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
     }
-
 
 
     /**
@@ -175,11 +181,11 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * appropriate.
      */
     private void getResultsFromApi() {
-        if (! isGooglePlayServicesAvailable()) {
+        if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (!isDeviceOnline()) {
             mOutputText.setText("No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
@@ -236,17 +242,18 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
      * Called when an activity launched here (specifically, AccountPicker
      * and authorization) exits, giving you the requestCode you started it with,
      * the resultCode it returned, and any additional data from it.
+     *
      * @param requestCode code indicating which activity result is incoming.
-     * @param resultCode code indicating the result of the incoming
-     *     activity result.
-     * @param data Intent (containing result data) returned by incoming
-     *     activity result.
+     * @param resultCode  code indicating the result of the incoming
+     *                    activity result.
+     * @param data        Intent (containing result data) returned by incoming
+     *                    activity result.
      */
     @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     mOutputText.setText(
@@ -282,11 +289,12 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.
-     * @param requestCode The request code passed in
-     *     requestPermissions(android.app.Activity, String, int, String[])
-     * @param permissions The requested permissions. Never null.
+     *
+     * @param requestCode  The request code passed in
+     *                     requestPermissions(android.app.Activity, String, int, String[])
+     * @param permissions  The requested permissions. Never null.
      * @param grantResults The grant results for the corresponding permissions
-     *     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     *                     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -300,9 +308,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     /**
      * Callback for when a permission is granted using the EasyPermissions
      * library.
+     *
      * @param requestCode The request code associated with the requested
-     *         permission
-     * @param list The requested permission list. Never null.
+     *                    permission
+     * @param list        The requested permission list. Never null.
      */
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
@@ -312,9 +321,10 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     /**
      * Callback for when a permission is denied using the EasyPermissions
      * library.
+     *
      * @param requestCode The request code associated with the requested
-     *         permission
-     * @param list The requested permission list. Never null.
+     *                    permission
+     * @param list        The requested permission list. Never null.
      */
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
@@ -323,6 +333,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
     /**
      * Checks whether the device currently has a network connection.
+     *
      * @return true if the device has a network connection, false otherwise.
      */
     private boolean isDeviceOnline() {
@@ -334,8 +345,9 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
     /**
      * Check that Google Play services APK is installed and up to date.
+     *
      * @return true if Google Play Services is available and up to
-     *     date on this device; false otherwise.
+     * date on this device; false otherwise.
      */
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability apiAvailability =
@@ -363,8 +375,9 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     /**
      * Display an error dialog showing that Google Play Services is missing
      * or out of date.
+     *
      * @param connectionStatusCode code describing the presence (or lack of)
-     *     Google Play Services on this device.
+     *                             Google Play Services on this device.
      */
     void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
@@ -395,6 +408,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
 
         /**
          * Background task to call Google Calendar API.
+         *
          * @param params no parameters needed for this task.
          */
         @Override
@@ -413,7 +427,9 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        /** Appends a zero-padded number to a string builder. */
+        /**
+         * Appends a zero-padded number to a string builder.
+         */
         private void appendI(StringBuilder sbe, int num, int numDigits) {
             if (num < 0) {
                 sbe.append('-');
@@ -431,9 +447,11 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 sbe.append(num);
             }
         }
+
         private List<String> getDataFromApi() throws IOException {
 
-
+            startQ = new PriorityQueue<Long>();
+            endQ = new PriorityQueue<Long>();
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             DateTime max = new DateTime("2017-11-12T23:59:00-05:00");
@@ -458,10 +476,12 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                 java.util.Calendar dateTimeStart = new GregorianCalendar(GMT);
                 long localTimeStart = start.getValue() + (start.getTimeZoneShift() * 60000L);
                 dateTimeStart.setTimeInMillis(localTimeStart);
+                startQ.add(start.getValue());
 
                 java.util.Calendar dateTimeEnd = new GregorianCalendar(GMT);
                 long localTimeEnd = end.getValue() + (end.getTimeZoneShift() * 60000L);
                 dateTimeEnd.setTimeInMillis(localTimeEnd);
+                endQ.add(end.getValue());
 
                 // Add event name
                 sb.append(event.getSummary());
@@ -476,7 +496,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
                     sb.append(start.toString().substring(4));
                     sb.append(" - ");
                     sb.append(end.toString().substring(4));
-                }                 else {
+                } else {
                     // Add start date
                     appendI(sb, dateTimeStart.get(java.util.Calendar.MONTH) + 1, 2);
                     sb.append("/");
@@ -501,6 +521,41 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             }
             return eventStrings;
         }
+
+        private void findFree() {
+            assert startQ != null;
+            assert endQ != null;
+            if (startQ.isEmpty()) return;
+            if (endQ.isEmpty()) return;
+            startFrQ = new LinkedList<Long>();
+            endFrQ = new LinkedList<Long>();
+            int count = 0;
+            long tempstart = startQ.poll();
+            long tempend = endQ.poll();
+
+            while (!endQ.isEmpty()) {
+                if (tempstart < tempend) {
+                    count++;
+                    if (count == 1) endFrQ.addLast(tempstart);
+                    if (startQ.isEmpty()) tempstart = Long.MAX_VALUE;
+                    else tempstart = startQ.poll();
+
+                }
+                if (tempstart == tempend)
+                    tempend = endQ.poll();
+
+                if (tempstart > tempend) {
+                    count--;
+                    if (count == 0) startFrQ.addLast(tempend);
+                    tempend = endQ.poll();
+
+                }
+            }
+        }
+
+
+
+
             /*
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
@@ -527,7 +582,6 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             }
             return eventStrings;
             */
-
 
 
         @Override
